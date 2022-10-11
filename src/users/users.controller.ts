@@ -9,7 +9,7 @@ import { UsersControllerInterface } from './users.controller.interface';
 import { UserLoginDto } from './dto/user-login.dto';
 import { UserRegisterDto } from './dto/user-register.dto';
 import { UserServiceInterface } from './user.service.interface';
-import {ValidateMiddleware} from "../common/validate.middleware";
+import { ValidateMiddleware } from '../common/validate.middleware';
 
 @injectable()
 export class UsersController extends BaseController implements UsersControllerInterface {
@@ -44,6 +44,7 @@ export class UsersController extends BaseController implements UsersControllerIn
 				user: {
 					email: newUser.email,
 					name: newUser.name,
+					id: newUser.id,
 				},
 			},
 		});

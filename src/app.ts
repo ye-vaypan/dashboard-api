@@ -7,8 +7,8 @@ import { TYPES } from './types';
 import 'reflect-metadata';
 import { UsersControllerInterface } from './users/users.controller.interface';
 import { json } from 'body-parser';
-import {ConfigServiceInterface} from "./config/config.service.interface";
-import {PrismaService} from "./database/prisma.service";
+import { ConfigServiceInterface } from './config/config.service.interface';
+import { PrismaService } from './database/prisma.service';
 
 @injectable()
 export class App {
