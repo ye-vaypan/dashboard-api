@@ -14,6 +14,7 @@ import { ConfigService } from './config/config.service';
 import { PrismaService } from './database/prisma.service';
 import { UsersRepositoryInterface } from './users/users.repository.interface';
 import { UsersRepository } from './users/users.repository';
+import {SingletonController} from "./creational/singleton/singletone.controller";
 
 export interface BootstrapReturnInterface {
 	appContainer: Container;
@@ -28,6 +29,9 @@ export const appBindings = new ContainerModule((bind: interfaces.Bind) => {
 	bind<PrismaService>(TYPES.PrismaService).to(PrismaService).inSingletonScope();
 	bind<ConfigServiceInterface>(TYPES.ConfigServiceInterface).to(ConfigService).inSingletonScope();
 	bind<UsersRepositoryInterface>(TYPES.UsersRepositoryInterface).to(UsersRepository);
+
+	bind<SingletonController>(TYPES.SingletonController).to(SingletonController);
+
 	bind<App>(TYPES.Application).to(App).inSingletonScope();
 });
 

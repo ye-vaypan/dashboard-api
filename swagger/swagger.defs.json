@@ -1,0 +1,15 @@
+{
+	"openapi": "3.0.0",
+	"info": {
+		"title": "Studying design patterns",
+		"version": "1.0.0",
+		"description": "A sample test patterns API",
+		"license": {
+			"name": "MIT",
+			"url": "https://spdx.org/licenses/MIT.html"
+		}
+	},
+	"paths": {
+		
+	}
+}

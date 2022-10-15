@@ -1,0 +1,107 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Studying design patterns",
+    "version": "1.0.0",
+    "description": "A sample test patterns API",
+    "license": {
+      "name": "MIT",
+      "url": "https://spdx.org/licenses/MIT.html"
+    }
+  },
+  "paths": {
+    "/singleton/add-log": {
+      "post": {
+        "description": "Check singleton pattern",
+        "tags": [
+          "Singleton"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SingletonRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful API answer",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SingletonResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/singleton/get-log": {
+      "get": {
+        "description": "Check singleton pattern",
+        "tags": [
+          "Singleton"
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful API answer",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SingletonResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "SingletonResponse": {
+        "properties": {
+          "status": {
+            "description": "Response status text",
+            "type": "string",
+            "example": "OK"
+          },
+          "message": {
+            "description": "Response message text",
+            "type": "string",
+            "example": "Added to singleton log"
+          },
+          "content": {
+            "description": "Returned current Singleton log",
+            "type": "array",
+            "items": {
+              "type": "string",
+              "example": "test string 1"
+            }
+          }
+        }
+      },
+      "SingletonRequest": {
+        "properties": {
+          "strToLog": {
+            "name": "strToLog",
+            "description": "Test string to put in singleton log.",
+            "type": "string",
+            "required": true,
+            "example": "test str to add"
+          }
+        }
+      }
+    }
+  },
+  "tags": [
+    {
+      "name": "Singleton",
+      "description": "Singleton pattern"
+    }
+  ]
+}
