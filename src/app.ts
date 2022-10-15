@@ -11,6 +11,7 @@ import { ConfigServiceInterface } from './config/config.service.interface';
 import { PrismaService } from './database/prisma.service';
 import { SingletonController } from './creational/singleton/singletone.controller';
 import swaggerUi from 'swagger-ui-express';
+import {FactoryController} from "./creational/factory/factory.controller";
 
 @injectable()
 export class App {
@@ -27,12 +28,14 @@ export class App {
 		@inject(TYPES.PrismaService) private readonly prismaService: PrismaService,
 
 		@inject(TYPES.SingletonController) private singletonController: SingletonController,
+		@inject(TYPES.FactoryController) private factoryController: FactoryController,
 	) {
 		this.app = express();
 		this.port = 8008;
 		this.logger = logger;
 		this.userController = userController;
 		this.singletonController = singletonController;
+		this.factoryController = factoryController;
 		this.exceptionFilter = exceptionFilter;
 		this.options = {
 			swaggerOptions: {
@@ -48,6 +51,7 @@ export class App {
 	useRoutes(): void {
 		this.app.use('/users', this.userController.router);
 		this.app.use('/singleton', this.singletonController.router);
+		this.app.use('/factory', this.factoryController.router);
 		this.app.use('/api-docs', swaggerUi.serve, swaggerUi.setup({}, this.options));
 		this.app.use(express.static('public'));
 

@@ -59,6 +59,76 @@
           }
         }
       }
+    },
+    "/factory/play": {
+      "post": {
+        "description": "Check factory pattern",
+        "tags": [
+          "Factory"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PlayRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful API answer",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OneMoveResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/factory/get-personage-types": {
+      "get": {
+        "description": "Check factory method pattern. Get available personage types",
+        "tags": [
+          "Factory"
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful API answer",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PersonageTypeResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/factory/get-play-hist": {
+      "get": {
+        "description": "Check factory method pattern. Get gameplay history;",
+        "tags": [
+          "Factory"
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful API answer",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GameplayHistoryResponse"
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
@@ -95,6 +165,94 @@
             "example": "test str to add"
           }
         }
+      },
+      "PersonageTypeResponse": {
+        "properties": {
+          "status": {
+            "description": "Response status text",
+            "type": "string",
+            "example": "OK"
+          },
+          "message": {
+            "description": "Response message text",
+            "type": "string",
+            "example": "Shows available personage types"
+          },
+          "content": {
+            "description": "Currently available personage types.",
+            "type": "array",
+            "items": {
+              "type": "string",
+              "example": "queen"
+            }
+          }
+        }
+      },
+      "GameplayHistoryResponse": {
+        "properties": {
+          "status": {
+            "description": "Response status text",
+            "type": "string",
+            "example": "OK"
+          },
+          "message": {
+            "description": "Response message text",
+            "type": "string",
+            "example": "Game moves hist"
+          },
+          "content": {
+            "description": "History log",
+            "type": "array",
+            "items": {
+              "type": "string",
+              "example": "Queen moved to position (1, 5)"
+            }
+          }
+        }
+      },
+      "OneMoveResponse": {
+        "properties": {
+          "status": {
+            "description": "Response status text",
+            "type": "string",
+            "example": "OK"
+          },
+          "message": {
+            "description": "Response message text",
+            "type": "string",
+            "example": "Personage has moved"
+          },
+          "content": {
+            "description": "one move result",
+            "type": "string",
+            "example": "Queen moved to position (1, 5)"
+          }
+        }
+      },
+      "PlayRequest": {
+        "properties": {
+          "personType": {
+            "name": "personType",
+            "description": "Type of personage.",
+            "type": "string",
+            "required": true,
+            "example": "king"
+          },
+          "x": {
+            "name": "x",
+            "description": "\\'x\\' coordinate.",
+            "type": "int",
+            "required": true,
+            "example": 1
+          },
+          "y": {
+            "name": "y",
+            "description": "\\'y\\' coordinate.",
+            "type": "int",
+            "required": true,
+            "example": 3
+          }
+        }
       }
     }
   },
@@ -102,6 +260,10 @@
     {
       "name": "Singleton",
       "description": "Singleton pattern"
+    },
+    {
+      "name": "Factory",
+      "description": "Factory method pattern"
     }
   ]
 }
