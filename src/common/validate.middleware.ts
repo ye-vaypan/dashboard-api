@@ -9,7 +9,7 @@ export class ValidateMiddleware implements MiddlewareInterface {
 		const instance = plainToInstance(this.classToValidate, body);
 		validate(instance).then((errors) => {
 			if (errors.length > 0) {
-				res.status(422).send(errors);
+				return res.status(422).send(errors);
 			}
 
 			next();

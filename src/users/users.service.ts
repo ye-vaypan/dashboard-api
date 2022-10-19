@@ -6,6 +6,8 @@ import { TYPES } from '../types';
 import { ConfigServiceInterface } from '../config/config.service.interface';
 import { UsersRepositoryInterface } from './users.repository.interface';
 import { UserModel } from '@prisma/client';
+import { UserLoginDto } from './dto/user-login.dto';
+import {compare} from "bcrypt";
 
 @injectable()
 export class UsersService implements UserServiceInterface {
@@ -26,7 +28,20 @@ export class UsersService implements UserServiceInterface {
 		return this.usersRepository.create(newUser);
 	}
 
-	async validateUser(dto: UserRegisterDto): Promise<boolean> {
-		return true;
+	async validateUser({ email, password }: UserLoginDto): Promise<boolean> {
+		const existUser = await this.usersRepository.find(email);
+		if (!existUser) return false;
+
+		const user = new User(existUser.email, existUser.name, existUser.password);
+
+		return user.comparePassword(password);
+	}
+
+	async getUserInfo(email: string): Promise<UserModel | null> {
+		const existUser = await this.usersRepository.find(email);
+		if (existUser) {
+			return existUser;
+		}
+		return null;
 	}
 }

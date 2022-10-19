@@ -11,7 +11,8 @@ import { ConfigServiceInterface } from './config/config.service.interface';
 import { PrismaService } from './database/prisma.service';
 import { SingletonController } from './creational/singleton/singletone.controller';
 import swaggerUi from 'swagger-ui-express';
-import {FactoryController} from "./creational/factory/factory.controller";
+import { FactoryController } from './creational/factory/factory.controller';
+import {AuthMiddleware} from "./common/auth.middleware";
 
 @injectable()
 export class App {
@@ -46,6 +47,8 @@ export class App {
 
 	useMiddleware(): void {
 		this.app.use(json());
+		const authMiddleware = new AuthMiddleware(this.configService.get('APP_SECRET'));
+		this.app.use(authMiddleware.execute.bind(authMiddleware));
 	}
 
 	useRoutes(): void {
@@ -54,7 +57,6 @@ export class App {
 		this.app.use('/factory', this.factoryController.router);
 		this.app.use('/api-docs', swaggerUi.serve, swaggerUi.setup({}, this.options));
 		this.app.use(express.static('public'));
-
 	}
 
 	useExceptionFilters(): void {

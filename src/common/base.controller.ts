@@ -28,7 +28,7 @@ export abstract class BaseController {
 	}
 
 	public send<T>(res: Response, code: number, message: T): Response<any, Record<string, any>> {
-		res.type('application/json');
+		// res.type('application/json');
 		return res.status(code).json(message);
 	}
 
