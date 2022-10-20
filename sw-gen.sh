@@ -1,2 +1,2 @@
 #!/bin/bash
-swagger-jsdoc -d ./swagger/swagger.defs.json ./src/**/*.ts -o ./public/swagger.json
+swagger-jsdoc -d ./swagger/swagger.defs.json -o ./public/swagger.json ./src/creational/singleton/*.ts ./src/creational/factory/*.ts ./src/creational/abstract-factory/*.ts

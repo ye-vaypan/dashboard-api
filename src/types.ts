@@ -9,4 +9,5 @@ export const TYPES = {
 	UsersRepositoryInterface: Symbol.for('UsersRepositoryInterface'),
 	SingletonController: Symbol.for('SingletonController'),
 	FactoryController: Symbol.for('FactoryController'),
+	AbstractFactoryController: Symbol.for('AbstractFactoryController'),
 };

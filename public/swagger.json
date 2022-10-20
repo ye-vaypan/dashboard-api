@@ -129,6 +129,56 @@
           }
         }
       }
+    },
+    "/abstract-factory/play": {
+      "post": {
+        "description": "Check abstract factory pattern",
+        "tags": [
+          "Abstract Factory"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/NewPlayRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful API answer",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InitGameResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/factory/get-color-types": {
+      "get": {
+        "description": "Check factory method pattern. Get available personage types",
+        "tags": [
+          "Abstract Factory"
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful API answer",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PersonageTypeResponse"
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
@@ -253,6 +303,58 @@
             "example": 3
           }
         }
+      },
+      "ColorTypeResponse": {
+        "properties": {
+          "status": {
+            "description": "Response status text",
+            "type": "string",
+            "example": "OK"
+          },
+          "message": {
+            "description": "Response message text",
+            "type": "string",
+            "example": "Shows available personage colors"
+          },
+          "content": {
+            "description": "Currently available personage colors.",
+            "type": "array",
+            "items": {
+              "type": "string",
+              "example": "black"
+            }
+          }
+        }
+      },
+      "InitGameResponse": {
+        "properties": {
+          "status": {
+            "description": "Response status text",
+            "type": "string",
+            "example": "OK"
+          },
+          "message": {
+            "description": "Response message text",
+            "type": "string",
+            "example": "Personage has moved"
+          },
+          "content": {
+            "description": "one move result",
+            "type": "string",
+            "example": "Queen moved to position (1, 5)"
+          }
+        }
+      },
+      "NewPlayRequest": {
+        "properties": {
+          "colorType": {
+            "name": "colorType",
+            "description": "Type of color.",
+            "type": "string",
+            "required": true,
+            "example": "white"
+          }
+        }
       }
     }
   },
@@ -264,6 +366,10 @@
     {
       "name": "Factory",
       "description": "Factory method pattern"
+    },
+    {
+      "name": "Abstract Factory",
+      "description": "Abstract Factory pattern"
     }
   ]
 }

@@ -16,6 +16,7 @@ import { UsersRepositoryInterface } from './users/users.repository.interface';
 import { UsersRepository } from './users/users.repository';
 import { SingletonController } from './creational/singleton/singletone.controller';
 import { FactoryController } from './creational/factory/factory.controller';
+import { AbstractFactoryController } from './creational/abstract-factory/abstract.factory.controller';
 
 export interface BootstrapReturnInterface {
 	appContainer: Container;
@@ -33,6 +34,7 @@ export const appBindings = new ContainerModule((bind: interfaces.Bind) => {
 
 	bind<SingletonController>(TYPES.SingletonController).to(SingletonController);
 	bind<FactoryController>(TYPES.FactoryController).to(FactoryController);
+	bind<AbstractFactoryController>(TYPES.AbstractFactoryController).to(AbstractFactoryController);
 
 	bind<App>(TYPES.Application).to(App).inSingletonScope();
 });

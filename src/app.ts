@@ -12,7 +12,8 @@ import { PrismaService } from './database/prisma.service';
 import { SingletonController } from './creational/singleton/singletone.controller';
 import swaggerUi from 'swagger-ui-express';
 import { FactoryController } from './creational/factory/factory.controller';
-import {AuthMiddleware} from "./common/auth.middleware";
+import { AuthMiddleware } from './common/auth.middleware';
+import { AbstractFactoryController } from './creational/abstract-factory/abstract.factory.controller';
 
 @injectable()
 export class App {
@@ -30,6 +31,7 @@ export class App {
 
 		@inject(TYPES.SingletonController) private singletonController: SingletonController,
 		@inject(TYPES.FactoryController) private factoryController: FactoryController,
+		@inject(TYPES.AbstractFactoryController) private abstractFactoryController: AbstractFactoryController,
 	) {
 		this.app = express();
 		this.port = 8008;
@@ -37,6 +39,7 @@ export class App {
 		this.userController = userController;
 		this.singletonController = singletonController;
 		this.factoryController = factoryController;
+		this.abstractFactoryController = abstractFactoryController;
 		this.exceptionFilter = exceptionFilter;
 		this.options = {
 			swaggerOptions: {
@@ -55,6 +58,7 @@ export class App {
 		this.app.use('/users', this.userController.router);
 		this.app.use('/singleton', this.singletonController.router);
 		this.app.use('/factory', this.factoryController.router);
+		this.app.use('/abstract-factory', this.abstractFactoryController.router);
 		this.app.use('/api-docs', swaggerUi.serve, swaggerUi.setup({}, this.options));
 		this.app.use(express.static('public'));
 	}
