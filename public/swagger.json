@@ -179,6 +179,129 @@
           }
         }
       }
+    },
+    "/builder/build-computer": {
+      "post": {
+        "description": "Check builder pattern",
+        "tags": [
+          "Builder"
+        ],
+        "requestBody": {
+          "required": false,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ComputerRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful API answer",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ComputerResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/builder/list-variants": {
+      "get": {
+        "description": "Check factory method pattern. Get available personage types",
+        "tags": [
+          "Builder"
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful API answer",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ComputerVariants"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/prototype/create-car-wheel": {
+      "post": {
+        "description": "Check Prototype pattern",
+        "tags": [
+          "Prototype"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateWheelRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful API answer",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PrototypeResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/prototype/clone-car-wheel": {
+      "post": {
+        "description": "Check Prototype pattern",
+        "tags": [
+          "Prototype"
+        ],
+        "requestBody": {
+          "required": false
+        },
+        "responses": {
+          "200": {
+            "description": "Successful API answer",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PrototypeResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/prototype/get-car-wheels": {
+      "get": {
+        "description": "Get all stored wheels.",
+        "tags": [
+          "Prototype"
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful API answer",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PrototypeResponse"
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
@@ -355,6 +478,112 @@
             "example": "white"
           }
         }
+      },
+      "ComputerVariants": {
+        "properties": {
+          "status": {
+            "description": "Response status text",
+            "type": "string",
+            "example": "OK"
+          },
+          "message": {
+            "description": "Response message text",
+            "type": "string",
+            "example": "Shows available computer variants"
+          },
+          "content": {
+            "description": "Currently available variants.",
+            "type": "array",
+            "items": {
+              "type": "string",
+              "example": "basic"
+            }
+          }
+        }
+      },
+      "ComputerResponse": {
+        "properties": {
+          "status": {
+            "description": "Response status text",
+            "type": "string",
+            "example": "OK"
+          },
+          "message": {
+            "description": "Response message text",
+            "type": "string",
+            "example": "Personage has moved"
+          },
+          "content": {
+            "description": "Parts in build",
+            "type": "array",
+            "items": {
+              "type": "string",
+              "example": "500 GB"
+            }
+          }
+        }
+      },
+      "ComputerRequest": {
+        "properties": {
+          "variant": {
+            "name": "variant",
+            "description": "Computer variant.",
+            "type": "string",
+            "required": false,
+            "example": "basic"
+          }
+        }
+      },
+      "PrototypeResponse": {
+        "properties": {
+          "status": {
+            "description": "Response status text",
+            "type": "string",
+            "example": "OK"
+          },
+          "message": {
+            "description": "Response message text",
+            "type": "string",
+            "example": "Shows all stored wheels."
+          },
+          "content": {
+            "description": "List of all stored wheels.",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CarWheel"
+            }
+          }
+        }
+      },
+      "CarWheel": {
+        "properties": {
+          "diameter": {
+            "type": "number",
+            "example": 16
+          },
+          "_fixingHoleNumber": {
+            "type": "number",
+            "example": 5
+          }
+        }
+      },
+      "CreateWheelRequest": {
+        "properties": {
+          "dia": {
+            "name": "dia",
+            "description": "Diameter of wheel.",
+            "type": "number",
+            "required": true,
+            "example": 16
+          },
+          "fix": {
+            "name": "fix",
+            "description": "Number of fixing wholes of wheel.",
+            "type": "number",
+            "required": true,
+            "example": 5
+          }
+        }
       }
     }
   },
@@ -370,6 +599,14 @@
     {
       "name": "Abstract Factory",
       "description": "Abstract Factory pattern"
+    },
+    {
+      "name": "Builder",
+      "description": "Builder pattern"
+    },
+    {
+      "name": "Prototype",
+      "description": "Prototype pattern"
     }
   ]
 }

@@ -10,4 +10,6 @@ export const TYPES = {
 	SingletonController: Symbol.for('SingletonController'),
 	FactoryController: Symbol.for('FactoryController'),
 	AbstractFactoryController: Symbol.for('AbstractFactoryController'),
+	BuilderController: Symbol.for('BuilderController'),
+	PrototypeController: Symbol.for('PrototypeController'),
 };
