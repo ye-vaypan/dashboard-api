@@ -1,5 +1,5 @@
 import { LoggerService } from '../../logger/logger.service';
-import {ClonableInterface} from "./clonable.interface";
+import { ClonableInterface } from './clonable.interface';
 
 export class WheelStorage {
 	private static instance: WheelStorage;
