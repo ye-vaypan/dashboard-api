@@ -136,7 +136,7 @@ export class AbstractFactoryController extends BaseController {
 
 	/**
 	 * @swagger
-	 * /factory/get-color-types:
+	 * /abstract-factory/get-color-types:
 	 *   get:
 	 *     description: Check factory method pattern. Get available personage types
 	 *     tags: [Abstract Factory]

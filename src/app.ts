@@ -16,6 +16,7 @@ import { AuthMiddleware } from './common/auth.middleware';
 import { AbstractFactoryController } from './creational/abstract-factory/abstract.factory.controller';
 import {BuilderController} from "./creational/builder/builder.controller";
 import {PrototypeController} from "./creational/prototype/prototype.controller";
+import {AdapterController} from "./structural/adapter/adapter.controller";
 
 @injectable()
 export class App {
@@ -36,6 +37,7 @@ export class App {
 		@inject(TYPES.AbstractFactoryController) private abstractFactoryController: AbstractFactoryController,
 		@inject(TYPES.BuilderController) private builderController: BuilderController,
 		@inject(TYPES.PrototypeController) private prototypeController: PrototypeController,
+		@inject(TYPES.AdapterController) private adapterController: AdapterController,
 	) {
 		this.app = express();
 		this.port = 8008;
@@ -46,6 +48,7 @@ export class App {
 		this.abstractFactoryController = abstractFactoryController;
 		this.builderController = builderController;
 		this.prototypeController = prototypeController;
+		this.adapterController = adapterController;
 		this.exceptionFilter = exceptionFilter;
 		this.options = {
 			swaggerOptions: {
@@ -62,11 +65,15 @@ export class App {
 
 	useRoutes(): void {
 		this.app.use('/users', this.userController.router);
+		/* Creational patterns */
 		this.app.use('/singleton', this.singletonController.router);
 		this.app.use('/factory', this.factoryController.router);
 		this.app.use('/abstract-factory', this.abstractFactoryController.router);
 		this.app.use('/builder', this.builderController.router);
 		this.app.use('/prototype', this.prototypeController.router);
+		/* Structural patterns */
+		this.app.use('/adapter', this.adapterController.router);
+
 		this.app.use('/api-docs', swaggerUi.serve, swaggerUi.setup({}, this.options));
 		this.app.use(express.static('public'));
 	}

@@ -19,6 +19,7 @@ import { FactoryController } from './creational/factory/factory.controller';
 import { AbstractFactoryController } from './creational/abstract-factory/abstract.factory.controller';
 import {BuilderController} from "./creational/builder/builder.controller";
 import {PrototypeController} from "./creational/prototype/prototype.controller";
+import {AdapterController} from "./structural/adapter/adapter.controller";
 
 export interface BootstrapReturnInterface {
 	appContainer: Container;
@@ -28,17 +29,19 @@ export interface BootstrapReturnInterface {
 export const appBindings = new ContainerModule((bind: interfaces.Bind) => {
 	bind<LoggerInterface>(TYPES.LoggerInterface).to(LoggerService).inSingletonScope();
 	bind<ExceptionFilterInterface>(TYPES.ExceptionFilterInterface).to(ExceptionFilter).inSingletonScope();
-	bind<UsersControllerInterface>(TYPES.UserControllerInterface).to(UsersController).inSingletonScope();
-	bind<UserServiceInterface>(TYPES.UserServiceInterface).to(UsersService).inSingletonScope();
+	bind<UsersControllerInterface>(TYPES.UserControllerInterface).to(UsersController);
+	bind<UserServiceInterface>(TYPES.UserServiceInterface).to(UsersService);
 	bind<PrismaService>(TYPES.PrismaService).to(PrismaService).inSingletonScope();
 	bind<ConfigServiceInterface>(TYPES.ConfigServiceInterface).to(ConfigService).inSingletonScope();
 	bind<UsersRepositoryInterface>(TYPES.UsersRepositoryInterface).to(UsersRepository);
-
+	/* Creational patterns */
 	bind<SingletonController>(TYPES.SingletonController).to(SingletonController);
 	bind<FactoryController>(TYPES.FactoryController).to(FactoryController);
 	bind<AbstractFactoryController>(TYPES.AbstractFactoryController).to(AbstractFactoryController);
 	bind<BuilderController>(TYPES.BuilderController).to(BuilderController);
 	bind<PrototypeController>(TYPES.PrototypeController).to(PrototypeController);
+	/* Structural patterns */
+	bind<AdapterController>(TYPES.AdapterController).to(AdapterController);
 
 	bind<App>(TYPES.Application).to(App).inSingletonScope();
 });
