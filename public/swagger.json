@@ -302,6 +302,136 @@
           }
         }
       }
+    },
+    "/adapter/add-log": {
+      "post": {
+        "description": "Check adapter pattern",
+        "tags": [
+          "Adapter"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AdapterRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful API answer",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AdapterResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/adapter/get-log": {
+      "get": {
+        "description": "Check Adapter pattern",
+        "tags": [
+          "Adapter"
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful API answer",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AdapterResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/bridge/store-data": {
+      "post": {
+        "description": "Check Bridge pattern",
+        "tags": [
+          "Bridge"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BridgeStoreRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful API answer",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BridgeResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/bridge/get-data": {
+      "get": {
+        "description": "Check Bridge pattern",
+        "tags": [
+          "Bridge"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BridgeFindRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful API answer",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BridgeResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/bridge/list-data-sources": {
+      "get": {
+        "description": "Check bridge pattern",
+        "tags": [
+          "Bridge"
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful API answer",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BridgeDataSourcesResponse"
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
@@ -584,6 +714,163 @@
             "example": 5
           }
         }
+      },
+      "AdapterResponse": {
+        "properties": {
+          "status": {
+            "description": "Response status text",
+            "type": "string",
+            "example": "OK"
+          },
+          "message": {
+            "description": "Response message text",
+            "type": "string",
+            "example": "Added to Adapter log"
+          },
+          "content": {
+            "description": "Returned current Adapter log",
+            "type": "array",
+            "items": {
+              "type": "string",
+              "example": "test string 1"
+            }
+          }
+        }
+      },
+      "AdapterRequest": {
+        "properties": {
+          "strToLog": {
+            "name": "strToLog",
+            "description": "Test string to put in Adapter log.",
+            "type": "string",
+            "required": true,
+            "example": "test str to add"
+          }
+        }
+      },
+      "BridgeResponse": {
+        "properties": {
+          "status": {
+            "description": "Response status text",
+            "type": "string",
+            "example": "OK"
+          },
+          "message": {
+            "description": "Response message text",
+            "type": "string",
+            "example": "User saved"
+          },
+          "content": {
+            "description": "Returned current stored user",
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BridgeResponse"
+              }
+            }
+          }
+        }
+      },
+      "BridgeDataSourcesResponse": {
+        "properties": {
+          "status": {
+            "description": "Response status text",
+            "type": "string",
+            "example": "OK"
+          },
+          "message": {
+            "description": "Response message text",
+            "type": "string",
+            "example": "Available data storage types"
+          },
+          "content": {
+            "description": "Return available data storage types",
+            "type": "array",
+            "items": {
+              "type": "string",
+              "example": "db"
+            }
+          }
+        }
+      },
+      "BridgeStoreRequest": {
+        "properties": {
+          "repoType": {
+            "name": "repoType",
+            "description": "type of repository.",
+            "type": "string",
+            "default": "db",
+            "required": false,
+            "example": "db"
+          },
+          "name": {
+            "name": "name",
+            "description": "Username",
+            "type": "string",
+            "required": true,
+            "example": "Eugene"
+          },
+          "email": {
+            "name": "email",
+            "description": "User email",
+            "type": "string",
+            "required": true,
+            "example": "test@gmail.com"
+          },
+          "password": {
+            "name": "password",
+            "description": "User password",
+            "type": "string",
+            "required": true,
+            "example": "password"
+          }
+        }
+      },
+      "BridgeFindRequest": {
+        "properties": {
+          "repoType": {
+            "name": "repoType",
+            "description": "type of repository.",
+            "type": "string",
+            "default": "db",
+            "required": false,
+            "example": "db"
+          },
+          "email": {
+            "name": "email",
+            "description": "User email",
+            "type": "string",
+            "required": true,
+            "example": "test@gmail.com"
+          }
+        }
+      },
+      "UserDataModel": {
+        "properties": {
+          "id": {
+            "name": "id",
+            "description": "User ID.",
+            "type": "integer",
+            "example": 1
+          },
+          "name": {
+            "name": "name",
+            "description": "Username",
+            "type": "string",
+            "example": "Eugene"
+          },
+          "email": {
+            "name": "email",
+            "description": "User email",
+            "type": "string",
+            "example": "test@gmail.com"
+          },
+          "password": {
+            "name": "password",
+            "description": "User password hash",
+            "type": "string",
+            "example": "password hash string"
+          }
+        }
       }
     }
   },
@@ -607,6 +894,14 @@
     {
       "name": "Prototype",
       "description": "Prototype pattern"
+    },
+    {
+      "name": "Adapter",
+      "description": "Adapter pattern"
+    },
+    {
+      "name": "Bridge",
+      "description": "Bridge pattern"
     }
   ]
 }

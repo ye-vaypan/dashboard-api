@@ -2,16 +2,12 @@ import { BaseController } from '../../common/base.controller';
 import { inject } from 'inversify';
 import { TYPES } from '../../types';
 import { LoggerInterface } from '../../logger/logger.interface';
-import { NextFunction, Request, Response } from 'express';
-import { StorageInterface } from '../adapter/storage.interface';
-import { CloudStorage } from '../adapter/cloud.storage';
-import { LocalStorage } from '../adapter/local.storage';
-import {StorageRepositoryInterface} from "./storage.repository.interface";
-import {UserRepository} from "./user.repository";
-import {JsonStorage} from "./json.storage";
-import {BaseRepository} from "./base.repository";
-import {DbStorage} from "./db.storage";
-import {User} from "./user.entity";
+import {NextFunction, query, Request, Response} from 'express';
+import { UserRepository } from './user.repository';
+import { FileStorage } from './file.storage';
+import { BaseRepository } from './base.repository';
+import { User } from './user.entity';
+import { DbStorage } from './db.storage';
 
 export class BridgeController extends BaseController {
 	constructor(@inject(TYPES.LoggerInterface) private loggerService: LoggerInterface) {
@@ -39,7 +35,7 @@ export class BridgeController extends BaseController {
 	 * @swagger
 	 * components:
 	 *   schemas:
-	 *     SingletonResponse:
+	 *     BridgeResponse:
 	 *       properties:
 	 *         status:
 	 *           description: Response status text
@@ -48,53 +44,122 @@ export class BridgeController extends BaseController {
 	 *         message:
 	 *           description: Response message text
 	 *           type: string
-	 *           example: 'Added to singleton log'
+	 *           example: 'User saved'
 	 *         content:
-	 *           description: Returned current Singleton log
+	 *           description: Returned current stored user
+	 *           application/json:
+	 *             schema:
+	 *               $ref: '#/components/schemas/BridgeResponse'
+	 *     BridgeDataSourcesResponse:
+	 *       properties:
+	 *         status:
+	 *           description: Response status text
+	 *           type: string
+	 *           example: 'OK'
+	 *         message:
+	 *           description: Response message text
+	 *           type: string
+	 *           example: 'Available data storage types'
+	 *         content:
+	 *           description: Return available data storage types
 	 *           type: array
 	 *           items:
 	 *             type: string
-	 *             example: 'test string 1'
-	 *     SingletonRequest:
+	 *             example: 'db'
+	 *     BridgeStoreRequest:
 	 *       properties:
-	 *         strToLog:
-	 *           name: strToLog
-	 *           description: Test string to put in singleton log.
+	 *         repoType:
+	 *           name: repoType
+	 *           description: type of repository.
+	 *           type: string
+	 *           default: 'db'
+	 *           required: false
+	 *           example: 'db'
+	 *         name:
+	 *           name: name
+	 *           description: Username
 	 *           type: string
 	 *           required: true
-	 *           example: 'test str to add'
+	 *           example: 'Eugene'
+	 *         email:
+	 *           name: email
+	 *           description: User email
+	 *           type: string
+	 *           required: true
+	 *           example: 'test@gmail.com'
+	 *         password:
+	 *           name: password
+	 *           description: User password
+	 *           type: string
+	 *           required: true
+	 *           example: 'password'
+	 *     BridgeFindRequest:
+	 *       properties:
+	 *         repoType:
+	 *           name: repoType
+	 *           description: type of repository.
+	 *           type: string
+	 *           default: 'db'
+	 *           required: false
+	 *           example: 'db'
+	 *         email:
+	 *           name: email
+	 *           description: User email
+	 *           type: string
+	 *           required: true
+	 *           example: 'test@gmail.com'
+	 *     UserDataModel:
+	 *       properties:
+	 *         id:
+	 *           name: id
+	 *           description: User ID.
+	 *           type: integer
+	 *           example: 1
+	 *         name:
+	 *           name: name
+	 *           description: Username
+	 *           type: string
+	 *           example: 'Eugene'
+	 *         email:
+	 *           name: email
+	 *           description: User email
+	 *           type: string
+	 *           example: 'test@gmail.com'
+	 *         password:
+	 *           name: password
+	 *           description: User password hash
+	 *           type: string
+	 *           example: 'password hash string'
 	 */
 
 	/**
 	 * @swagger
 	 * tags:
-	 *   - name: Singleton
-	 *     description: Singleton pattern
+	 *   - name: Bridge
+	 *     description: Bridge pattern
 	 */
 
 	/**
 	 * @swagger
-	 * /singleton/add-log:
+	 * /bridge/store-data:
 	 *   post:
-	 *     description: Check singleton pattern
-	 *     tags: [Singleton]
+	 *     description: Check Bridge pattern
+	 *     tags: [Bridge]
 	 *     requestBody:
 	 *       required: true
 	 *       content:
 	 *         application/json:
 	 *           schema:
-	 *             $ref: '#/components/schemas/SingletonRequest'
+	 *             $ref: '#/components/schemas/BridgeStoreRequest'
 	 *     responses:
 	 *       200:
 	 *         description: Successful API answer
 	 *         content:
 	 *           application/json:
 	 *             schema:
-	 *               $ref: '#/components/schemas/SingletonResponse'
+	 *               $ref: '#/components/schemas/BridgeResponse'
 	 */
 	async storeData({ body }: Request<{}, {}>, res: Response, next: NextFunction): Promise<void> {
-		const msg = 'Some default success message';
-
 		let repository: BaseRepository;
 
 		const user = new User(body.email, body.name);
@@ -102,7 +167,7 @@ export class BridgeController extends BaseController {
 
 		switch (body.repoType) {
 			case 'file':
-				repository = new UserRepository(new JsonStorage());
+				repository = new UserRepository(new FileStorage());
 				break;
 			case 'db':
 			default:
@@ -110,43 +175,63 @@ export class BridgeController extends BaseController {
 				break;
 		}
 
-		const record = repository.createRecord(user);
+		const record = await repository.createRecord(user);
 
-		try {
+		if (record !== null) {
 			this.ok(res, {
 				status: 'OK',
-				message: msg,
+				message: 'User created',
+				userRecord: record,
 			});
-		} catch (err) {
-			this.send(res, 404, 'Some errors occurred');
+		} else {
+			this.send(res, 422, 'User already exist!');
 		}
 	}
 
 	/**
 	 * @swagger
-	 * /singleton/get-log:
+	 * /bridge/get-data:
 	 *   get:
-	 *     description: Check singleton pattern
-	 *     tags: [Singleton]
+	 *     description: Check Bridge pattern
+	 *     tags: [Bridge]
+	 *     requestBody:
+	 *       required: true
+	 *       content:
+	 *         application/json:
+	 *           schema:
+	 *             $ref: '#/components/schemas/BridgeFindRequest'
 	 *     responses:
 	 *       200:
 	 *         description: Successful API answer
 	 *         content:
 	 *           application/json:
 	 *             schema:
-	 *               $ref: '#/components/schemas/SingletonResponse'
+	 *               $ref: '#/components/schemas/BridgeResponse'
 	 */
 
-	async getData({ body }: Request<{}, {}>, res: Response, next: NextFunction): Promise<void> {
-		const msg = 'Some default success message';
+	async getData({ body, query }: Request<{}, {}>, res: Response, next: NextFunction): Promise<void> {
+		let repository: BaseRepository;
 
-		try {
+		switch (body.repoType) {
+			case 'file':
+				repository = new UserRepository(new FileStorage());
+				break;
+			case 'db':
+			default:
+				repository = new UserRepository(new DbStorage());
+				break;
+		}
+
+		const record = await repository.getRecord(body.email);
+
+		if (record !== null) {
 			this.ok(res, {
 				status: 'OK',
-				message: msg,
+				message: 'User created',
+				userRecord: record,
 			});
-		} catch (err) {
-			this.send(res, 404, 'Some errors occurred');
+		} else {
+			this.send(res, 422, 'User already exist!');
 		}
 	}
 
@@ -167,7 +252,7 @@ export class BridgeController extends BaseController {
 	async listDataSources(req: Request, res: Response, next: NextFunction): Promise<void> {
 		this.ok(res, {
 			status: 'OK',
-			message: 'Current log content',
+			message: 'Available data storage types',
 			content: ['file', 'db'],
 		});
 	}

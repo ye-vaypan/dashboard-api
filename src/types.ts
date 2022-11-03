@@ -15,4 +15,5 @@ export const TYPES = {
 	PrototypeController: Symbol.for('PrototypeController'),
 	/* Structural patterns */
 	AdapterController: Symbol.for('AdapterController'),
+	BridgeController: Symbol.for('BridgeController'),
 };

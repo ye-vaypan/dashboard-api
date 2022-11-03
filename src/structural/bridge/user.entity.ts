@@ -1,11 +1,9 @@
 import { compare, hash } from 'bcrypt';
-import { BaseEntity } from './base.entity';
 
-export class User extends BaseEntity {
+export class User {
 	private _password: string;
 
 	constructor(private readonly _email: string, private readonly _name: string, passwordHash?: string) {
-		super();
 		if (passwordHash) {
 			this._password = passwordHash;
 		}

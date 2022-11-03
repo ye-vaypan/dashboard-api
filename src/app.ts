@@ -14,9 +14,10 @@ import swaggerUi from 'swagger-ui-express';
 import { FactoryController } from './creational/factory/factory.controller';
 import { AuthMiddleware } from './common/auth.middleware';
 import { AbstractFactoryController } from './creational/abstract-factory/abstract.factory.controller';
-import {BuilderController} from "./creational/builder/builder.controller";
-import {PrototypeController} from "./creational/prototype/prototype.controller";
-import {AdapterController} from "./structural/adapter/adapter.controller";
+import { BuilderController } from './creational/builder/builder.controller';
+import { PrototypeController } from './creational/prototype/prototype.controller';
+import { AdapterController } from './structural/adapter/adapter.controller';
+import { BridgeController } from './structural/bridge/bridge.controller';
 
 @injectable()
 export class App {
@@ -38,6 +39,7 @@ export class App {
 		@inject(TYPES.BuilderController) private builderController: BuilderController,
 		@inject(TYPES.PrototypeController) private prototypeController: PrototypeController,
 		@inject(TYPES.AdapterController) private adapterController: AdapterController,
+		@inject(TYPES.BridgeController) private bridgeController: BridgeController,
 	) {
 		this.app = express();
 		this.port = 8008;
@@ -49,6 +51,7 @@ export class App {
 		this.builderController = builderController;
 		this.prototypeController = prototypeController;
 		this.adapterController = adapterController;
+		this.bridgeController = bridgeController;
 		this.exceptionFilter = exceptionFilter;
 		this.options = {
 			swaggerOptions: {
@@ -73,6 +76,7 @@ export class App {
 		this.app.use('/prototype', this.prototypeController.router);
 		/* Structural patterns */
 		this.app.use('/adapter', this.adapterController.router);
+		this.app.use('/bridge', this.bridgeController.router);
 
 		this.app.use('/api-docs', swaggerUi.serve, swaggerUi.setup({}, this.options));
 		this.app.use(express.static('public'));

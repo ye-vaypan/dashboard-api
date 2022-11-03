@@ -17,9 +17,10 @@ import { UsersRepository } from './users/users.repository';
 import { SingletonController } from './creational/singleton/singletone.controller';
 import { FactoryController } from './creational/factory/factory.controller';
 import { AbstractFactoryController } from './creational/abstract-factory/abstract.factory.controller';
-import {BuilderController} from "./creational/builder/builder.controller";
-import {PrototypeController} from "./creational/prototype/prototype.controller";
-import {AdapterController} from "./structural/adapter/adapter.controller";
+import { BuilderController } from './creational/builder/builder.controller';
+import { PrototypeController } from './creational/prototype/prototype.controller';
+import { AdapterController } from './structural/adapter/adapter.controller';
+import { BridgeController } from './structural/bridge/bridge.controller';
 
 export interface BootstrapReturnInterface {
 	appContainer: Container;
@@ -42,6 +43,7 @@ export const appBindings = new ContainerModule((bind: interfaces.Bind) => {
 	bind<PrototypeController>(TYPES.PrototypeController).to(PrototypeController);
 	/* Structural patterns */
 	bind<AdapterController>(TYPES.AdapterController).to(AdapterController);
+	bind<BridgeController>(TYPES.BridgeController).to(BridgeController);
 
 	bind<App>(TYPES.Application).to(App).inSingletonScope();
 });

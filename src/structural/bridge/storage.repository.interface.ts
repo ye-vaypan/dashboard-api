@@ -1,7 +1,8 @@
-import { BaseEntity } from './base.entity';
+import { UserModel } from '@prisma/client';
+import { User } from './user.entity';
 
 export interface StorageRepositoryInterface {
-	store(entity: BaseEntity): BaseEntity;
-	find(id: bigint): BaseEntity;
-	update(id: bigint, entity: BaseEntity): BaseEntity;
+	store(entity: User): Promise<UserModel>;
+	find(email: string): Promise<UserModel | null>;
+	update(email: string, entity: User): Promise<UserModel>;
 }

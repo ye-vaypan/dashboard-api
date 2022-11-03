@@ -38,7 +38,7 @@ export class AdapterController extends BaseController {
 	 * @swagger
 	 * components:
 	 *   schemas:
-	 *     SingletonResponse:
+	 *     AdapterResponse:
 	 *       properties:
 	 *         status:
 	 *           description: Response status text
@@ -47,18 +47,18 @@ export class AdapterController extends BaseController {
 	 *         message:
 	 *           description: Response message text
 	 *           type: string
-	 *           example: 'Added to singleton log'
+	 *           example: 'Added to Adapter log'
 	 *         content:
-	 *           description: Returned current Singleton log
+	 *           description: Returned current Adapter log
 	 *           type: array
 	 *           items:
 	 *             type: string
 	 *             example: 'test string 1'
-	 *     SingletonRequest:
+	 *     AdapterRequest:
 	 *       properties:
 	 *         strToLog:
 	 *           name: strToLog
-	 *           description: Test string to put in singleton log.
+	 *           description: Test string to put in Adapter log.
 	 *           type: string
 	 *           required: true
 	 *           example: 'test str to add'
@@ -67,29 +67,29 @@ export class AdapterController extends BaseController {
 	/**
 	 * @swagger
 	 * tags:
-	 *   - name: Singleton
-	 *     description: Singleton pattern
+	 *   - name: Adapter
+	 *     description: Adapter pattern
 	 */
 
 	/**
 	 * @swagger
-	 * /singleton/add-log:
+	 * /adapter/add-log:
 	 *   post:
-	 *     description: Check singleton pattern
-	 *     tags: [Singleton]
+	 *     description: Check adapter pattern
+	 *     tags: [Adapter]
 	 *     requestBody:
 	 *       required: true
 	 *       content:
 	 *         application/json:
 	 *           schema:
-	 *             $ref: '#/components/schemas/SingletonRequest'
+	 *             $ref: '#/components/schemas/AdapterRequest'
 	 *     responses:
 	 *       200:
 	 *         description: Successful API answer
 	 *         content:
 	 *           application/json:
 	 *             schema:
-	 *               $ref: '#/components/schemas/SingletonResponse'
+	 *               $ref: '#/components/schemas/AdapterResponse'
 	 */
 	async storeFile({ body }: Request<{}, {}>, res: Response, next: NextFunction): Promise<void> {
 		let storage: StorageInterface;
@@ -122,17 +122,17 @@ export class AdapterController extends BaseController {
 
 	/**
 	 * @swagger
-	 * /singleton/get-log:
+	 * /adapter/get-log:
 	 *   get:
-	 *     description: Check singleton pattern
-	 *     tags: [Singleton]
+	 *     description: Check Adapter pattern
+	 *     tags: [Adapter]
 	 *     responses:
 	 *       200:
 	 *         description: Successful API answer
 	 *         content:
 	 *           application/json:
 	 *             schema:
-	 *               $ref: '#/components/schemas/SingletonResponse'
+	 *               $ref: '#/components/schemas/AdapterResponse'
 	 */
 
 	async getFile({ body }: Request<{}, {}>, res: Response, next: NextFunction): Promise<void> {

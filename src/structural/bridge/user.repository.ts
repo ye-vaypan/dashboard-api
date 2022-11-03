@@ -1,6 +1,7 @@
 import { BaseRepository } from './base.repository';
 import { StorageRepositoryInterface } from './storage.repository.interface';
 import { User } from './user.entity';
+import { UserModel } from '@prisma/client';
 
 export class UserRepository implements BaseRepository {
 	private readonly repository: StorageRepositoryInterface;
@@ -13,15 +14,19 @@ export class UserRepository implements BaseRepository {
 		return this.repository;
 	}
 
-	createRecord(user: User): User {
-		return this.repository.store(user) as User;
+	async createRecord(user: User): Promise<UserModel | null> {
+		const existUser = await this.repository.find(user.email);
+		if (existUser) {
+			return null;
+		}
+		return this.repository.store(user);
 	}
 
-	getRecord(id: bigint): User {
-		return this.repository.find(id) as User;
+	async getRecord(email: string): Promise<UserModel | null> {
+		return this.repository.find(email);
 	}
 
-	updateRecord(id: bigint, user: User): User {
-		return this.repository.update(id, user) as User;
-	}
+	// async updateRecord(email: string, user: User): Promise<UserModel> {
+	// 	return this.repository.update(email, user);
+	// }
 }
