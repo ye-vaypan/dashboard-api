@@ -1,8 +1,9 @@
 import { StorageRepositoryInterface } from './storage.repository.interface';
+import { BaseEntity } from './base.entity';
 
-export abstract class BaseRepository {
-	repository: StorageRepositoryInterface;
-
-	abstract getRepository(): StorageRepositoryInterface;
-	abstract save(): void;
+export interface BaseRepository {
+	getRepository(): StorageRepositoryInterface;
+	createRecord(entity: BaseEntity): BaseEntity;
+	getRecord(id: bigint): BaseEntity;
+	updateRecord(id: bigint, entity: BaseEntity): BaseEntity;
 }

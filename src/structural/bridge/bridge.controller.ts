@@ -6,6 +6,12 @@ import { NextFunction, Request, Response } from 'express';
 import { StorageInterface } from '../adapter/storage.interface';
 import { CloudStorage } from '../adapter/cloud.storage';
 import { LocalStorage } from '../adapter/local.storage';
+import {StorageRepositoryInterface} from "./storage.repository.interface";
+import {UserRepository} from "./user.repository";
+import {JsonStorage} from "./json.storage";
+import {BaseRepository} from "./base.repository";
+import {DbStorage} from "./db.storage";
+import {User} from "./user.entity";
 
 export class BridgeController extends BaseController {
 	constructor(@inject(TYPES.LoggerInterface) private loggerService: LoggerInterface) {
@@ -88,6 +94,23 @@ export class BridgeController extends BaseController {
 	 */
 	async storeData({ body }: Request<{}, {}>, res: Response, next: NextFunction): Promise<void> {
 		const msg = 'Some default success message';
+
+		let repository: BaseRepository;
+
+		const user = new User(body.email, body.name);
+		await user.setPassword(body.password, 10);
+
+		switch (body.repoType) {
+			case 'file':
+				repository = new UserRepository(new JsonStorage());
+				break;
+			case 'db':
+			default:
+				repository = new UserRepository(new DbStorage());
+				break;
+		}
+
+		const record = repository.createRecord(user);
 
 		try {
 			this.ok(res, {
