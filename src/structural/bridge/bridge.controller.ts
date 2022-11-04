@@ -2,12 +2,14 @@ import { BaseController } from '../../common/base.controller';
 import { inject } from 'inversify';
 import { TYPES } from '../../types';
 import { LoggerInterface } from '../../logger/logger.interface';
-import {NextFunction, query, Request, Response} from 'express';
+import { NextFunction, query, Request, Response } from 'express';
 import { UserRepository } from './user.repository';
 import { FileStorage } from './file.storage';
 import { BaseRepository } from './base.repository';
 import { User } from './user.entity';
 import { DbStorage } from './db.storage';
+import { ValidateMiddleware } from '../../common/validate.middleware';
+import { UserRegisterDto } from '../../users/dto/user-register.dto';
 
 export class BridgeController extends BaseController {
 	constructor(@inject(TYPES.LoggerInterface) private loggerService: LoggerInterface) {
@@ -17,6 +19,7 @@ export class BridgeController extends BaseController {
 				path: '/store-data',
 				method: 'post',
 				func: this.storeData,
+				middlewares: [new ValidateMiddleware(UserRegisterDto)],
 			},
 			{
 				path: '/get-data',
@@ -231,7 +234,7 @@ export class BridgeController extends BaseController {
 				userRecord: record,
 			});
 		} else {
-			this.send(res, 422, 'User already exist!');
+			this.send(res, 422, 'User is not exist!');
 		}
 	}
 
