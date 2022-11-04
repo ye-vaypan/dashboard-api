@@ -5,6 +5,7 @@ import { LoggerInterface } from '../../logger/logger.interface';
 import { NextFunction, query, Request, Response } from 'express';
 import { Directory } from './directory';
 import { TextFile } from './text.file';
+import {FileInterface} from "./file.interface";
 
 export class CompositeController extends BaseController {
 	constructor(@inject(TYPES.LoggerInterface) private loggerService: LoggerInterface) {
@@ -149,21 +150,17 @@ export class CompositeController extends BaseController {
 	async testStructure({ body }: Request<{}, {}>, res: Response, next: NextFunction): Promise<void> {
 		const rootDir = new Directory();
 		rootDir.name = 'directory root';
-		// for (let i = 0; i < body.depth; i++) {
+
 		for (let j = 0; j < body.dirsCount; j++) {
 			const sub = this.buildStructure(new Directory(), body.filesCount, body.dirsCount, body.fileSizeTo, body.depth);
 			rootDir.addFile(sub);
 		}
-		// }
 		for (let n = 0; n < body.filesCount; n++) {
 			const file = new TextFile(Math.floor(Math.random() * body.fileSizeTo) + 1);
 			file.name = `file_${n}.${file.getType()}`;
 			rootDir.addFile(file);
 		}
 
-		// rootDir.getSize();
-
-		// if (record !== null) {
 		this.ok(res, {
 			status: 'OK',
 			message: 'Requested tree structure created',
@@ -172,9 +169,6 @@ export class CompositeController extends BaseController {
 				dirContent: rootDir.getContent(),
 			},
 		});
-		// } else {
-		// 	this.send(res, 422, 'User already exist!');
-		// }
 	}
 
 	private buildStructure(
@@ -184,7 +178,7 @@ export class CompositeController extends BaseController {
 		maxFileSize: number,
 		depth: number,
 		counter = 0,
-	) {
+	): FileInterface {
 		++counter;
 		for (let i = 0; i < dirsCount; i++) {
 			dir.name = `sub_dir_depth_${counter}`;
