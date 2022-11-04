@@ -432,6 +432,36 @@
           }
         }
       }
+    },
+    "/composite/test-composite-structure": {
+      "post": {
+        "description": "Check Composite pattern",
+        "tags": [
+          "Composite"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CompositeRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful API answer",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CompositeResponse"
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
@@ -871,6 +901,75 @@
             "example": "password hash string"
           }
         }
+      },
+      "CompositeResponse": {
+        "properties": {
+          "status": {
+            "description": "Response status text",
+            "type": "string",
+            "example": "OK"
+          },
+          "message": {
+            "description": "Response message text",
+            "type": "string",
+            "example": "Requested tree structure created"
+          },
+          "content": {
+            "description": "Returned emulated directories structure",
+            "$ref": "#/components/schemas/Composite"
+          }
+        }
+      },
+      "CompositeRequest": {
+        "properties": {
+          "depth": {
+            "name": "depth",
+            "description": "depth of directories structure.",
+            "type": "integer",
+            "required": true,
+            "example": 1
+          },
+          "filesCount": {
+            "name": "filesCount",
+            "description": "Files count to store in each directory",
+            "type": "integer",
+            "required": true,
+            "example": 1
+          },
+          "dirsCount": {
+            "name": "dirsCount",
+            "description": "Directories count to put in each directory except last one.",
+            "type": "integer",
+            "required": true,
+            "example": 2
+          },
+          "maxFileSize": {
+            "name": "maxFileSize",
+            "description": "maxFileSize",
+            "type": "integer",
+            "required": true,
+            "example": 50
+          }
+        }
+      },
+      "Composite": {
+        "properties": {
+          "totalSize": {
+            "name": "totalSize",
+            "description": "Total size of all files in all directories.",
+            "type": "integer",
+            "example": 1
+          },
+          "dirContent": {
+            "name": "dirContent",
+            "description": "Directories listed content",
+            "type": "array",
+            "items": {
+              "type": "string",
+              "example": "file_0.txt 19Kb"
+            }
+          }
+        }
       }
     }
   },
@@ -902,6 +1001,10 @@
     {
       "name": "Bridge",
       "description": "Bridge pattern"
+    },
+    {
+      "name": "Composite",
+      "description": "Composite pattern"
     }
   ]
 }

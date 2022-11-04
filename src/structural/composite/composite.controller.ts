@@ -23,7 +23,7 @@ export class CompositeController extends BaseController {
 	 * @swagger
 	 * components:
 	 *   schemas:
-	 *     BridgeResponse:
+	 *     CompositeResponse:
 	 *       properties:
 	 *         status:
 	 *           description: Response status text
@@ -32,131 +32,89 @@ export class CompositeController extends BaseController {
 	 *         message:
 	 *           description: Response message text
 	 *           type: string
-	 *           example: 'User saved'
+	 *           example: 'Requested tree structure created'
 	 *         content:
-	 *           description: Returned current stored user
-	 *           application/json:
-	 *             schema:
-	 *               $ref: '#/components/schemas/BridgeResponse'
-	 *     BridgeDataSourcesResponse:
+	 *           description: Returned emulated directories structure
+	 *           $ref: '#/components/schemas/Composite'
+	 *     CompositeRequest:
 	 *       properties:
-	 *         status:
-	 *           description: Response status text
-	 *           type: string
-	 *           example: 'OK'
-	 *         message:
-	 *           description: Response message text
-	 *           type: string
-	 *           example: 'Available data storage types'
-	 *         content:
-	 *           description: Return available data storage types
+	 *         depth:
+	 *           name: depth
+	 *           description: depth of directories structure.
+	 *           type: integer
+	 *           required: true
+	 *           example: 1
+	 *         filesCount:
+	 *           name: filesCount
+	 *           description: Files count to store in each directory
+	 *           type: integer
+	 *           required: true
+	 *           example: 1
+	 *         dirsCount:
+	 *           name: dirsCount
+	 *           description: Directories count to put in each directory except last one.
+	 *           type: integer
+	 *           required: true
+	 *           example: 2
+	 *         maxFileSize:
+	 *           name: maxFileSize
+	 *           description: maxFileSize
+	 *           type: integer
+	 *           required: true
+	 *           example: 50
+	 *     Composite:
+	 *       properties:
+	 *         totalSize:
+	 *           name: totalSize
+	 *           description: Total size of all files in all directories.
+	 *           type: integer
+	 *           example: 1
+	 *         dirContent:
+	 *           name: dirContent
+	 *           description: Directories listed content
 	 *           type: array
 	 *           items:
 	 *             type: string
-	 *             example: 'db'
-	 *     BridgeStoreRequest:
-	 *       properties:
-	 *         repoType:
-	 *           name: repoType
-	 *           description: type of repository.
-	 *           type: string
-	 *           default: 'db'
-	 *           required: false
-	 *           example: 'db'
-	 *         name:
-	 *           name: name
-	 *           description: Username
-	 *           type: string
-	 *           required: true
-	 *           example: 'Eugene'
-	 *         email:
-	 *           name: email
-	 *           description: User email
-	 *           type: string
-	 *           required: true
-	 *           example: 'test@gmail.com'
-	 *         password:
-	 *           name: password
-	 *           description: User password
-	 *           type: string
-	 *           required: true
-	 *           example: 'password'
-	 *     BridgeFindRequest:
-	 *       properties:
-	 *         repoType:
-	 *           name: repoType
-	 *           description: type of repository.
-	 *           type: string
-	 *           default: 'db'
-	 *           required: false
-	 *           example: 'db'
-	 *         email:
-	 *           name: email
-	 *           description: User email
-	 *           type: string
-	 *           required: true
-	 *           example: 'test@gmail.com'
-	 *     UserDataModel:
-	 *       properties:
-	 *         id:
-	 *           name: id
-	 *           description: User ID.
-	 *           type: integer
-	 *           example: 1
-	 *         name:
-	 *           name: name
-	 *           description: Username
-	 *           type: string
-	 *           example: 'Eugene'
-	 *         email:
-	 *           name: email
-	 *           description: User email
-	 *           type: string
-	 *           example: 'test@gmail.com'
-	 *         password:
-	 *           name: password
-	 *           description: User password hash
-	 *           type: string
-	 *           example: 'password hash string'
+	 *             example: 'file_0.txt 19Kb'
 	 */
 
 	/**
 	 * @swagger
 	 * tags:
-	 *   - name: Bridge
-	 *     description: Bridge pattern
+	 *   - name: Composite
+	 *     description: Composite pattern
 	 */
 
 	/**
 	 * @swagger
-	 * /bridge/store-data:
+	 * /composite/test-composite-structure:
 	 *   post:
-	 *     description: Check Bridge pattern
-	 *     tags: [Bridge]
+	 *     description: Check Composite pattern
+	 *     tags: [Composite]
 	 *     requestBody:
 	 *       required: true
 	 *       content:
 	 *         application/json:
 	 *           schema:
-	 *             $ref: '#/components/schemas/BridgeStoreRequest'
+	 *             $ref: '#/components/schemas/CompositeRequest'
 	 *     responses:
 	 *       200:
 	 *         description: Successful API answer
 	 *         content:
 	 *           application/json:
 	 *             schema:
-	 *               $ref: '#/components/schemas/BridgeResponse'
+	 *               $ref: '#/components/schemas/CompositeResponse'
 	 */
 	async testStructure({ body }: Request<{}, {}>, res: Response, next: NextFunction): Promise<void> {
 		const rootDir = new Directory();
 		rootDir.name = 'directory root';
 
 		for (let j = 0; j < body.dirsCount; j++) {
-			const sub = this.buildStructure(new Directory(), body.filesCount, body.dirsCount, body.fileSizeTo, body.depth);
+			const sub = this.buildStructure(new Directory(), body.filesCount, body.dirsCount, body.maxFileSize, body.depth);
 			rootDir.addFile(sub);
 		}
 		for (let n = 0; n < body.filesCount; n++) {
-			const file = new TextFile(Math.floor(Math.random() * body.fileSizeTo) + 1);
+			const file = new TextFile(Math.floor(Math.random() * body.maxFileSize) + 1);
 			file.name = `file_${n}.${file.getType()}`;
 			rootDir.addFile(file);
 		}
