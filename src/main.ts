@@ -22,6 +22,7 @@ import { PrototypeController } from './creational/prototype/prototype.controller
 import { AdapterController } from './structural/adapter/adapter.controller';
 import { BridgeController } from './structural/bridge/bridge.controller';
 import { CompositeController } from './structural/composite/composite.controller';
+import { FacadeController } from './structural/facade/facade.controller';
 
 export interface BootstrapReturnInterface {
 	appContainer: Container;
@@ -46,6 +47,7 @@ export const appBindings = new ContainerModule((bind: interfaces.Bind) => {
 	bind<AdapterController>(TYPES.AdapterController).to(AdapterController);
 	bind<BridgeController>(TYPES.BridgeController).to(BridgeController);
 	bind<CompositeController>(TYPES.CompositeController).to(CompositeController);
+	bind<FacadeController>(TYPES.FacadeController).to(FacadeController);
 
 	bind<App>(TYPES.Application).to(App).inSingletonScope();
 });

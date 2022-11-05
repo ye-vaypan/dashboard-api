@@ -18,7 +18,8 @@ import { BuilderController } from './creational/builder/builder.controller';
 import { PrototypeController } from './creational/prototype/prototype.controller';
 import { AdapterController } from './structural/adapter/adapter.controller';
 import { BridgeController } from './structural/bridge/bridge.controller';
-import {CompositeController} from "./structural/composite/composite.controller";
+import { CompositeController } from './structural/composite/composite.controller';
+import { FacadeController } from './structural/facade/facade.controller';
 
 @injectable()
 export class App {
@@ -43,6 +44,7 @@ export class App {
 		@inject(TYPES.AdapterController) private adapterController: AdapterController,
 		@inject(TYPES.BridgeController) private bridgeController: BridgeController,
 		@inject(TYPES.CompositeController) private compositeController: CompositeController,
+		@inject(TYPES.FacadeController) private facadeController: FacadeController,
 	) {
 		this.app = express();
 		this.port = 8008;
@@ -56,6 +58,7 @@ export class App {
 		this.adapterController = adapterController;
 		this.bridgeController = bridgeController;
 		this.compositeController = compositeController;
+		this.facadeController = facadeController;
 		this.exceptionFilter = exceptionFilter;
 		this.options = {
 			swaggerOptions: {
@@ -82,6 +85,7 @@ export class App {
 		this.app.use('/adapter', this.adapterController.router);
 		this.app.use('/bridge', this.bridgeController.router);
 		this.app.use('/composite', this.compositeController.router);
+		this.app.use('/facade', this.facadeController.router);
 
 		this.app.use('/api-docs', swaggerUi.serve, swaggerUi.setup({}, this.options));
 		this.app.use(express.static('public'));

@@ -17,4 +17,5 @@ export const TYPES = {
 	AdapterController: Symbol.for('AdapterController'),
 	BridgeController: Symbol.for('BridgeController'),
 	CompositeController: Symbol.for('CompositeController'),
+	FacadeController: Symbol.for('FacadeController'),
 };

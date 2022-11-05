@@ -5,7 +5,7 @@ import { LoggerInterface } from '../../logger/logger.interface';
 import { NextFunction, query, Request, Response } from 'express';
 import { Directory } from './directory';
 import { TextFile } from './text.file';
-import {FileInterface} from "./file.interface";
+import { FileInterface } from './file.interface';
 
 export class CompositeController extends BaseController {
 	constructor(@inject(TYPES.LoggerInterface) private loggerService: LoggerInterface) {
