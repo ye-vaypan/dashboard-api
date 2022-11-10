@@ -7,4 +7,5 @@ swagger-jsdoc -d ./swagger/swagger.defs.json -o ./public/swagger.json \
                   ./src/creational/prototype/*.ts \
                   ./src/structural/adapter/*.ts \
                   ./src/structural/bridge/*.ts \
-                  ./src/structural/composite/*.ts
+                  ./src/structural/composite/*.ts \
+                  ./src/structural/decorator/*.ts

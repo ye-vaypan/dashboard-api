@@ -20,6 +20,7 @@ import { AdapterController } from './structural/adapter/adapter.controller';
 import { BridgeController } from './structural/bridge/bridge.controller';
 import { CompositeController } from './structural/composite/composite.controller';
 import { FacadeController } from './structural/facade/facade.controller';
+import {DecoratorController} from "./structural/decorator/decorator.controller";
 
 @injectable()
 export class App {
@@ -45,6 +46,7 @@ export class App {
 		@inject(TYPES.BridgeController) private bridgeController: BridgeController,
 		@inject(TYPES.CompositeController) private compositeController: CompositeController,
 		@inject(TYPES.FacadeController) private facadeController: FacadeController,
+		@inject(TYPES.DecoratorController) private decoratorController: DecoratorController,
 	) {
 		this.app = express();
 		this.port = 8008;
@@ -59,6 +61,7 @@ export class App {
 		this.bridgeController = bridgeController;
 		this.compositeController = compositeController;
 		this.facadeController = facadeController;
+		this.decoratorController = decoratorController;
 		this.exceptionFilter = exceptionFilter;
 		this.options = {
 			swaggerOptions: {
@@ -86,6 +89,7 @@ export class App {
 		this.app.use('/bridge', this.bridgeController.router);
 		this.app.use('/composite', this.compositeController.router);
 		this.app.use('/facade', this.facadeController.router);
+		this.app.use('/decorator', this.decoratorController.router);
 
 		this.app.use('/api-docs', swaggerUi.serve, swaggerUi.setup({}, this.options));
 		this.app.use(express.static('public'));

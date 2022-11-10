@@ -462,6 +462,134 @@
           }
         }
       }
+    },
+    "/decorator/get-decor-types": {
+      "get": {
+        "description": "Decorator pattern - get available decorators",
+        "tags": [
+          "Decorator"
+        ],
+        "requestBody": {
+          "required": false
+        },
+        "responses": {
+          "200": {
+            "description": "Successful API answer",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "description": "Response status text",
+                      "type": "string",
+                      "example": "OK"
+                    },
+                    "message": {
+                      "description": "Response message text",
+                      "type": "string",
+                      "example": "List of available image decorators"
+                    },
+                    "content": {
+                      "type": "array",
+                      "items": {
+                        "type": "string",
+                        "example": "watermarkEnable"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/decorator/save-image": {
+      "post": {
+        "description": "Decorator pattern - save image with options",
+        "tags": [
+          "Decorator"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "fileInput": {
+                    "description": "Emulated file",
+                    "type": "string",
+                    "example": "imageToSave.jpg"
+                  },
+                  "imageToPngEnable": {
+                    "required": false,
+                    "description": "Enable image to png conversion",
+                    "type": "boolean",
+                    "example": true
+                  },
+                  "watermarkEnable": {
+                    "required": false,
+                    "description": "Enable add watermark for image",
+                    "type": "boolean",
+                    "example": true
+                  },
+                  "thumbGenerateEnable": {
+                    "required": false,
+                    "description": "Enable thumbnails generation",
+                    "type": "boolean",
+                    "example": true
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful API answer",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "description": "Response status text",
+                      "type": "string",
+                      "example": "OK"
+                    },
+                    "message": {
+                      "description": "Response message text",
+                      "type": "string",
+                      "example": "Image saved"
+                    },
+                    "content": {
+                      "description": "Returned log of steps",
+                      "type": "object",
+                      "properties": {
+                        "savedData": {
+                          "description": "Emulated data",
+                          "type": "string",
+                          "example": "imageToSave.jpg saved to:  /path/to/images/"
+                        },
+                        "savingLog": {
+                          "description": "Wrappers log to show steps.",
+                          "type": "array",
+                          "items": {
+                            "type": "string",
+                            "example": "Thumbnails for imageToSave.jpg saved to  /path/to/thumbs/"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
@@ -1005,6 +1133,10 @@
     {
       "name": "Composite",
       "description": "Composite pattern"
+    },
+    {
+      "name": "Decorator",
+      "description": "Decorator pattern"
     }
   ]
 }
