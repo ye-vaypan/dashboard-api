@@ -138,7 +138,6 @@ export class DecoratorController extends BaseController {
 	 */
 
 	async saveImage({ body }: Request<{}, {}>, res: Response, next: NextFunction): Promise<void> {
-		console.log(body);
 		let image: ImageInterface;
 		const logger = SingletonEntity.getInstance();
 		image = new ClientImage();
