@@ -19,4 +19,6 @@ export const TYPES = {
 	CompositeController: Symbol.for('CompositeController'),
 	FacadeController: Symbol.for('FacadeController'),
 	DecoratorController: Symbol.for('DecoratorController'),
+	/* Behavioral patterns */
+	StrategyController: Symbol.for('StrategyController'),
 };

@@ -1,0 +1,22 @@
+[
+  {
+    "name": "John Doe",
+    "mark": 3,
+    "faculty": "Faculty of Philosophy"
+  },
+  {
+    "name": "Margaret Thatcher",
+    "mark": 5,
+    "faculty": "Faculty of Linguistic"
+  },
+  {
+    "name": "Bill Gates",
+    "mark": 4,
+    "faculty": "Faculty of Information Technologies"
+  },
+  {
+    "name": "Bill Clinton",
+    "mark": 5,
+    "faculty": "Faculty of Law"
+  }
+]

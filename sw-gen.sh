@@ -8,4 +8,5 @@ swagger-jsdoc -d ./swagger/swagger.defs.json -o ./public/swagger.json \
                   ./src/structural/adapter/*.ts \
                   ./src/structural/bridge/*.ts \
                   ./src/structural/composite/*.ts \
-                  ./src/structural/decorator/*.ts
+                  ./src/structural/decorator/*.ts \
+                  ./src/behavioral/strategy/*.ts

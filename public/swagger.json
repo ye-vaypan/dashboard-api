@@ -590,6 +590,56 @@
           }
         }
       }
+    },
+    "/strategy/get-report": {
+      "get": {
+        "description": "Strategy pattern",
+        "tags": [
+          "Strategy"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SortingRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful API answer",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StudentsReport"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/strategy/list-types": {
+      "get": {
+        "description": "Strategy pattern",
+        "tags": [
+          "Strategy"
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful API answer",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StudentsSortingTypes"
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
@@ -1098,6 +1148,84 @@
             }
           }
         }
+      },
+      "StudentsReport": {
+        "properties": {
+          "status": {
+            "description": "Response status text",
+            "type": "string",
+            "example": "OK"
+          },
+          "message": {
+            "description": "Response message text",
+            "type": "string",
+            "example": "Students sorted"
+          },
+          "content": {
+            "description": "Array of students",
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Student"
+              }
+            }
+          }
+        }
+      },
+      "StudentsSortingTypes": {
+        "properties": {
+          "status": {
+            "description": "Response status text",
+            "type": "string",
+            "example": "OK"
+          },
+          "message": {
+            "description": "Response message text",
+            "type": "string",
+            "example": "Available types"
+          },
+          "content": {
+            "description": "Return available students sorting types",
+            "type": "array",
+            "items": {
+              "type": "string",
+              "example": "AlphabetAsc"
+            }
+          }
+        }
+      },
+      "SortingRequest": {
+        "properties": {
+          "type": {
+            "name": "type",
+            "description": "Students sorting type.",
+            "type": "string",
+            "default": "AlphabetAsc",
+            "required": false,
+            "example": "AlphabetAsc"
+          }
+        }
+      },
+      "Student": {
+        "properties": {
+          "mark": {
+            "name": "mark",
+            "description": "Student's avg mark.",
+            "type": "integer",
+            "example": 5
+          },
+          "name": {
+            "name": "name",
+            "description": "Student's name.",
+            "type": "string",
+            "example": "John Doe"
+          },
+          "faculty": {
+            "name": "faculty",
+            "description": "Student's faculty.",
+            "type": "string",
+            "example": "FOIT"
+          }
+        }
       }
     }
   },
@@ -1137,6 +1265,10 @@
     {
       "name": "Decorator",
       "description": "Decorator pattern"
+    },
+    {
+      "name": "Strategy",
+      "description": "Strategy pattern"
     }
   ]
 }
