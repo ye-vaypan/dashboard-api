@@ -1,5 +1,5 @@
 import { UserRegisterDto } from './dto/user-register.dto';
-import { UserModel } from '@prisma/client';
+import { UserModel } from '../../prisma/generated/client';
 import { UserLoginDto } from './dto/user-login.dto';
 
 export interface UserServiceInterface {

@@ -6,7 +6,7 @@ import { UserServiceInterface } from './user.service.interface';
 import { TYPES } from '../types';
 import { UsersService } from './users.service';
 import { User } from './user.entity';
-import { UserModel } from '@prisma/client';
+import { UserModel } from '../../prisma/generated/client';
 
 const ConfigServiceMock: ConfigServiceInterface = {
 	get: jest.fn(),

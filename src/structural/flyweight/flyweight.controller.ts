@@ -3,45 +3,137 @@ import { inject } from 'inversify';
 import { TYPES } from '../../types';
 import { LoggerInterface } from '../../logger/logger.interface';
 import { NextFunction, Request, Response } from 'express';
+import { UserConnectionRepository } from './user.connection.repository';
+import { UserConnectionEntity } from './user.connection.entity';
+import { DeviceStorage } from './device.storage';
+import { UserConnections } from '../../../prisma/generated/client';
 
 export class FlyweightController extends BaseController {
-	constructor(@inject(TYPES.LoggerInterface) private loggerService: LoggerInterface) {
+	constructor(
+		@inject(TYPES.LoggerInterface) private loggerService: LoggerInterface,
+		@inject(TYPES.UserConnectionRepository) private userConnectionRepository: UserConnectionRepository,
+	) {
 		super(loggerService);
 		this.bindRoutes([
 			{
-				path: '/store-logo',
+				path: '/generate-data',
 				method: 'post',
-				func: this.saveLogo,
+				func: this.generateData,
 			},
 			{
-				path: '/get-logo',
+				path: '/get-all-rows',
 				method: 'get',
-				func: this.getLogo,
+				func: this.getAllRows,
+			},
+			{
+				path: '/read-all-data',
+				method: 'get',
+				func: this.readDataFromDb,
+			},
+			{
+				path: '/create-new-device',
+				method: 'post',
+				func: this.createNewDevice,
 			},
 		]);
 	}
 
-	async getLogo({ body }: Request<{}, {}>, res: Response, next: NextFunction): Promise<void> {
-		const user = body.user ?? null;
-		const fileService = new WasabiService(user);
-		const file = fileService.getFile(body.fileId);
+	async getAllRows({ body }: Request<{}, {}>, res: Response, next: NextFunction): Promise<void> {
+		const rows = await this.userConnectionRepository.getAll();
 		this.ok(res, {
 			status: 'OK',
-			message: 'Logo returned',
-			content: file,
+			message: 'All rows from db',
+			content: rows,
 		});
 	}
-	async saveLogo({ body }: Request<{}, {}>, res: Response, next: NextFunction): Promise<void> {
-		const user = body.user ?? null;
-		const fileService = new WasabiService(user);
-		const file = fileService.storeFile(body.file, 'some/path/to/save');
+
+	async generateData({ body }: Request<{}, {}>, res: Response, next: NextFunction): Promise<void> {
+		let rowsCount = 100;
+		if (body.rowsCount) {
+			rowsCount = body.rowsCount;
+		}
+		const browsers = ['Chrome', 'Safari', 'Opera', 'Mozilla'];
+		const oss = ['Linux', 'Windows', 'MacOS'];
+		const devices = ['desktop', 'mobile'];
+		const countries = ['Ukraine', 'USA', 'Poland'];
+
+		for (let i = 0; i < rowsCount; i++) {
+			const newConnection = await this.userConnectionRepository.create(
+				new UserConnectionEntity(
+					browsers[Math.floor(Math.random() * browsers.length)],
+					oss[Math.floor(Math.random() * oss.length)],
+					devices[Math.floor(Math.random() * devices.length)],
+					countries[Math.floor(Math.random() * countries.length)],
+					this.getRandIp(),
+				),
+			);
+		}
 
 		this.ok(res, {
 			status: 'OK',
-			message: 'Logo saved',
+			message: `${rowsCount} records generated`,
+		});
+	}
+
+	async createNewDevice({ body }: Request<{}, {}>, res: Response, next: NextFunction): Promise<void> {
+		const newConnection = await this.userConnectionRepository.create(
+			new UserConnectionEntity(body.browser, body.os, body.device, body.country, this.getRandIp()),
+		);
+		const deviceStorage = new DeviceStorage();
+		deviceStorage.addDevice(
+			newConnection.id,
+			newConnection.browser,
+			newConnection.os,
+			newConnection.device,
+			newConnection.country,
+			newConnection.ip,
+		);
+
+		this.ok(res, {
+			status: 'OK',
+			message: `New record created.`,
 			content: {
-				fileId: file,
+				totalRowsInDb: await this.userConnectionRepository.getCount(),
+				totalDevicesCount: deviceStorage.devices.length,
+				deviceTypesCount: deviceStorage.deviceFactory.getTypesCount(),
 			},
 		});
+	}
+
+	async readDataFromDb({ body }: Request<{}, {}>, res: Response, next: NextFunction): Promise<void> {
+		const connections = await this.userConnectionRepository.getAll();
+		const deviceStorage = new DeviceStorage();
+		connections?.forEach(function (connection: UserConnections) {
+			deviceStorage.addDevice(
+				connection.id,
+				connection.browser,
+				connection.os,
+				connection.device,
+				connection.country,
+				connection.ip,
+			);
+		});
+
+		this.ok(res, {
+			status: 'OK',
+			message: `New record created.`,
+			content: {
+				totalDevicesCount: deviceStorage.devices.length,
+				deviceTypesCount: deviceStorage.deviceFactory.getTypesCount(),
+			},
+		});
+	}
+
+	private getRandIp(): string {
+		return (
+			Math.floor(Math.random() * 255) +
+			1 +
+			'.' +
+			Math.floor(Math.random() * 255) +
+			'.' +
+			Math.floor(Math.random() * 255) +
+			'.' +
+			Math.floor(Math.random() * 255)
+		);
 	}
 }

@@ -1,7 +1,7 @@
 import { BaseRepository } from './base.repository';
 import { StorageRepositoryInterface } from './storage.repository.interface';
 import { User } from './user.entity';
-import { UserModel } from '@prisma/client';
+import { UserModel } from '../../../prisma/generated/client';
 
 export class UserRepository implements BaseRepository {
 	private readonly repository: StorageRepositoryInterface;

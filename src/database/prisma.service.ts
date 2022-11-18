@@ -1,4 +1,4 @@
-import { PrismaClient, UserModel } from '@prisma/client';
+import { PrismaClient, UserModel } from '../../prisma/generated/client';
 import { inject, injectable } from 'inversify';
 import { TYPES } from '../types';
 import { LoggerInterface } from '../logger/logger.interface';

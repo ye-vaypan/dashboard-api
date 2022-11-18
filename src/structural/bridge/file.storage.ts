@@ -1,5 +1,5 @@
 import { StorageRepositoryInterface } from './storage.repository.interface';
-import { UserModel } from '@prisma/client';
+import { UserModel } from '../../../prisma/generated/client';
 import { User } from './user.entity';
 import stFile from '../../../storageFile.json';
 import fs from 'fs';

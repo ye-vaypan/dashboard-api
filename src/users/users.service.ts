@@ -5,9 +5,8 @@ import { inject, injectable } from 'inversify';
 import { TYPES } from '../types';
 import { ConfigServiceInterface } from '../config/config.service.interface';
 import { UsersRepositoryInterface } from './users.repository.interface';
-import { UserModel } from '@prisma/client';
+import { UserModel } from '../../prisma/generated/client';
 import { UserLoginDto } from './dto/user-login.dto';
-import {compare} from "bcrypt";
 
 @injectable()
 export class UsersService implements UserServiceInterface {

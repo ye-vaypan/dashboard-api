@@ -19,6 +19,11 @@ export const TYPES = {
 	CompositeController: Symbol.for('CompositeController'),
 	FacadeController: Symbol.for('FacadeController'),
 	DecoratorController: Symbol.for('DecoratorController'),
+	FlyweightController: Symbol.for('FlyweightController'),
+	ProxyController: Symbol.for('ProxyController'),
 	/* Behavioral patterns */
 	StrategyController: Symbol.for('StrategyController'),
+
+	/* Some services */
+	UserConnectionRepository: Symbol.for('UserConnectionRepository'),
 };
