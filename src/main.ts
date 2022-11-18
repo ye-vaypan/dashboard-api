@@ -27,6 +27,7 @@ import { DecoratorController } from './structural/decorator/decorator.controller
 import { StrategyController } from './behavioral/strategy/strategy.controller';
 import { FlyweightController } from './structural/flyweight/flyweight.controller';
 import { UserConnectionRepository } from './structural/flyweight/user.connection.repository';
+import {ProxyController} from "./structural/proxy/proxy.controller";
 
 export interface BootstrapReturnInterface {
 	appContainer: Container;
@@ -54,6 +55,7 @@ export const appBindings = new ContainerModule((bind: interfaces.Bind) => {
 	bind<FacadeController>(TYPES.FacadeController).to(FacadeController);
 	bind<DecoratorController>(TYPES.DecoratorController).to(DecoratorController);
 	bind<FlyweightController>(TYPES.FlyweightController).to(FlyweightController);
+	bind<ProxyController>(TYPES.ProxyController).to(ProxyController);
 	bind<UserConnectionRepository>(TYPES.UserConnectionRepository).to(UserConnectionRepository);
 	/* Behavioral patterns */
 	bind<StrategyController>(TYPES.StrategyController).to(StrategyController);

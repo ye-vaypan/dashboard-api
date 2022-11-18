@@ -23,6 +23,7 @@ import { FacadeController } from './structural/facade/facade.controller';
 import { DecoratorController } from './structural/decorator/decorator.controller';
 import { StrategyController } from './behavioral/strategy/strategy.controller';
 import { FlyweightController } from './structural/flyweight/flyweight.controller';
+import { ProxyController } from './structural/proxy/proxy.controller';
 
 @injectable()
 export class App {
@@ -50,6 +51,7 @@ export class App {
 		@inject(TYPES.FacadeController) private facadeController: FacadeController,
 		@inject(TYPES.DecoratorController) private decoratorController: DecoratorController,
 		@inject(TYPES.FlyweightController) private flyweightController: FlyweightController,
+		@inject(TYPES.ProxyController) private proxyController: ProxyController,
 
 		@inject(TYPES.StrategyController) private strategyController: StrategyController,
 	) {
@@ -68,6 +70,7 @@ export class App {
 		this.facadeController = facadeController;
 		this.decoratorController = decoratorController;
 		this.flyweightController = flyweightController;
+		this.proxyController = proxyController;
 		this.strategyController = strategyController;
 		this.exceptionFilter = exceptionFilter;
 		this.options = {
@@ -98,6 +101,7 @@ export class App {
 		this.app.use('/facade', this.facadeController.router);
 		this.app.use('/decorator', this.decoratorController.router);
 		this.app.use('/flyweight', this.flyweightController.router);
+		this.app.use('/proxy', this.proxyController.router);
 		/* Behavioral patterns */
 		this.app.use('/strategy', this.strategyController.router);
 
