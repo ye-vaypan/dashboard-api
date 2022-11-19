@@ -7,6 +7,7 @@ import { ConfigServiceInterface } from '../config/config.service.interface';
 import { UsersRepositoryInterface } from './users.repository.interface';
 import { UserModel } from '../../prisma/generated/client';
 import { UserLoginDto } from './dto/user-login.dto';
+import { UserUpdateDto } from './dto/user.update.dto';
 
 @injectable()
 export class UsersService implements UserServiceInterface {
@@ -25,6 +26,20 @@ export class UsersService implements UserServiceInterface {
 		}
 
 		return this.usersRepository.create(newUser);
+	}
+
+	async updateUser(body: UserUpdateDto, user: string): Promise<UserModel | null> {
+		const userInfo = await this.usersRepository.find(user);
+		if (!userInfo) {
+			return null;
+		}
+		const exists = new User(userInfo.email, userInfo.name, userInfo.password);
+
+		const salt = this.configService.get('salt');
+		if (body.name) exists.name = body.name;
+		if (body.password) await exists.setPassword(body.password, Number(salt));
+
+		return this.usersRepository.update(exists);
 	}
 
 	async validateUser({ email, password }: UserLoginDto): Promise<boolean> {

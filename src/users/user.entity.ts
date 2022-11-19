@@ -3,7 +3,7 @@ import { compare, hash } from 'bcrypt';
 export class User {
 	private _password: string;
 
-	constructor(private readonly _email: string, private readonly _name: string, passwordHash?: string) {
+	constructor(private readonly _email: string, private _name: string, passwordHash?: string) {
 		if (passwordHash) {
 			this._password = passwordHash;
 		}
@@ -15,6 +15,10 @@ export class User {
 
 	get name(): string {
 		return this._name;
+	}
+
+	set name(name: string) {
+		this._name = name;
 	}
 
 	get password(): string {

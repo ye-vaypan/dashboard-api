@@ -13,6 +13,7 @@ import { ValidateMiddleware } from '../common/validate.middleware';
 import { sign } from 'jsonwebtoken';
 import { ConfigServiceInterface } from '../config/config.service.interface';
 import { AuthGuard } from '../common/auth.guard';
+import {UserUpdateDto} from "./dto/user.update.dto";
 
 @injectable()
 export class UsersController extends BaseController implements UsersControllerInterface {
@@ -40,6 +41,12 @@ export class UsersController extends BaseController implements UsersControllerIn
 				method: 'get',
 				func: this.info,
 				middlewares: [new AuthGuard()],
+			},
+			{
+				path: '/update',
+				method: 'put',
+				func: this.update,
+				middlewares: [new AuthGuard(), new ValidateMiddleware(UserUpdateDto)],
 			},
 		]);
 	}
@@ -126,4 +133,28 @@ export class UsersController extends BaseController implements UsersControllerIn
 			});
 		}
 	}
+
+	async update(req: Request<{}, {}, UserRegisterDto>, res: Response, next: NextFunction): Promise<void> {
+		const userInfo = await this.userService.updateUser(req.body, req.user);
+
+		if (!userInfo) {
+			res.status(401).send({
+				status: 'ERROR',
+				message: 'Authentication error.',
+			});
+		} else {
+			this.ok(res, {
+				status: 'OK',
+				message: 'User is updated.',
+				content: {
+					user: {
+						email: userInfo.email,
+						name: userInfo.name,
+						id: userInfo.id,
+					},
+				},
+			});
+		}
+	}
+
 }

@@ -19,6 +19,18 @@ export class UsersRepository implements UsersRepositoryInterface {
 		});
 	}
 
+	async update({ email, name, password }: User): Promise<UserModel> {
+		return this.prismaService.client.userModel.update({
+			where: {
+				email,
+			},
+			data: {
+				name,
+				password,
+			},
+		});
+	}
+
 	async find(email: string): Promise<UserModel | null> {
 		return this.prismaService.client.userModel.findFirst({
 			where: {

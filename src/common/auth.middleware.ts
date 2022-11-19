@@ -11,7 +11,7 @@ export class AuthMiddleware implements MiddlewareInterface {
 				if (err) {
 					next();
 				} else if (payload) {
-					// console.log(payload);
+					console.log(payload);
 					if (typeof payload === 'string') {
 						req.user = payload;
 					} else {
