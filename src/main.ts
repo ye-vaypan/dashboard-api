@@ -28,6 +28,7 @@ import { StrategyController } from './behavioral/strategy/strategy.controller';
 import { FlyweightController } from './structural/flyweight/flyweight.controller';
 import { UserConnectionRepository } from './structural/flyweight/user.connection.repository';
 import {ProxyController} from "./structural/proxy/proxy.controller";
+import {CorController} from "./behavioral/chain-of-responsibility=users/cor.controller";
 
 export interface BootstrapReturnInterface {
 	appContainer: Container;
@@ -59,6 +60,7 @@ export const appBindings = new ContainerModule((bind: interfaces.Bind) => {
 	bind<UserConnectionRepository>(TYPES.UserConnectionRepository).to(UserConnectionRepository);
 	/* Behavioral patterns */
 	bind<StrategyController>(TYPES.StrategyController).to(StrategyController);
+	bind<CorController>(TYPES.CorController).to(CorController);
 
 	bind<App>(TYPES.Application).to(App).inSingletonScope();
 });

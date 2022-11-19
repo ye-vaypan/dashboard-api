@@ -23,6 +23,7 @@ export const TYPES = {
 	ProxyController: Symbol.for('ProxyController'),
 	/* Behavioral patterns */
 	StrategyController: Symbol.for('StrategyController'),
+	CorController: Symbol.for('CorController'),
 
 	/* Some services */
 	UserConnectionRepository: Symbol.for('UserConnectionRepository'),
