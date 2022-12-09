@@ -13,7 +13,7 @@ export class AuthMiddleware implements MiddlewareInterface {
 	execute(req: Request): Request | null {
 		if (req.headers.authorization) {
 			const token = req.headers.authorization.split(' ')[1];
-			if (token !== 'querty') {
+			if (token === 'qwerty') {
 				req.user = 'admin';
 			}
 			if (this.nextMiddleware) return this.nextMiddleware.execute(req);
