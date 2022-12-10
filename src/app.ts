@@ -25,6 +25,7 @@ import { StrategyController } from './behavioral/strategy/strategy.controller';
 import { FlyweightController } from './structural/flyweight/flyweight.controller';
 import { ProxyController } from './structural/proxy/proxy.controller';
 import { CorController } from './behavioral/chain-of-responsibility=users/cor.controller';
+import {IteratorController} from "./behavioral/iterator/iterator.controller";
 
 @injectable()
 export class App {
@@ -56,6 +57,7 @@ export class App {
 
 		@inject(TYPES.StrategyController) private strategyController: StrategyController,
 		@inject(TYPES.CorController) private corController: CorController,
+		@inject(TYPES.IteratorController) private iteratorController: IteratorController,
 	) {
 		this.app = express();
 		this.port = 8008;
@@ -75,6 +77,7 @@ export class App {
 		this.proxyController = proxyController;
 		this.strategyController = strategyController;
 		this.corController = corController;
+		this.iteratorController = iteratorController;
 		this.exceptionFilter = exceptionFilter;
 		this.options = {
 			swaggerOptions: {
@@ -108,6 +111,7 @@ export class App {
 		/* Behavioral patterns */
 		this.app.use('/strategy', this.strategyController.router);
 		this.app.use('/cor', this.corController.router);
+		this.app.use('/iterator', this.iteratorController.router);
 
 		this.app.use('/api-docs', swaggerUi.serve, swaggerUi.setup({}, this.options));
 		this.app.use(express.static('public'));

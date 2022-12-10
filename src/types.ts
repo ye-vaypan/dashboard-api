@@ -1,3 +1,5 @@
+import {IteratorController} from "./behavioral/iterator/iterator.controller";
+
 export const TYPES = {
 	Application: Symbol.for('Application'),
 	LoggerInterface: Symbol.for('LoggerInterface'),
@@ -24,6 +26,7 @@ export const TYPES = {
 	/* Behavioral patterns */
 	StrategyController: Symbol.for('StrategyController'),
 	CorController: Symbol.for('CorController'),
+	IteratorController: Symbol.for('IteratorController'),
 
 	/* Some services */
 	UserConnectionRepository: Symbol.for('UserConnectionRepository'),
