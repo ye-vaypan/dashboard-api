@@ -46,7 +46,7 @@ export class ProxyController extends BaseController {
 		const dProduct = authUserProduct.getProduct();
 		this.send(res, dProduct.code, {
 			message: dProduct.msg,
-			data: dProduct.data
+			data: dProduct.data,
 		});
 	}
 
@@ -57,7 +57,7 @@ export class ProxyController extends BaseController {
 		const dProduct = authUserProduct.createProduct();
 		this.send(res, dProduct.code, {
 			message: dProduct.msg,
-			data: dProduct.data
+			data: dProduct.data,
 		});
 	}
 
@@ -68,7 +68,7 @@ export class ProxyController extends BaseController {
 		const dProduct = authUserProduct.updateProduct();
 		this.send(res, dProduct.code, {
 			message: dProduct.msg,
-			data: dProduct.data
+			data: dProduct.data,
 		});
 	}
 
@@ -79,7 +79,7 @@ export class ProxyController extends BaseController {
 		const dProduct = authUserProduct.deleteProduct();
 		this.send(res, dProduct.code, {
 			message: dProduct.msg,
-			data: dProduct.data
+			data: dProduct.data,
 		});
 	}
 

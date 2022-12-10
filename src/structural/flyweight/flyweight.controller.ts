@@ -76,10 +76,10 @@ export class FlyweightController extends BaseController {
 	}
 
 	async createNewDevice({ body }: Request<{}, {}>, res: Response, next: NextFunction): Promise<void> {
+		const deviceStorage = await this.initDevices();
 		const newConnection = await this.userConnectionRepository.create(
 			new UserConnectionEntity(body.browser, body.os, body.device, body.country, this.getRandIp()),
 		);
-		const deviceStorage = new DeviceStorage();
 		deviceStorage.addDevice(
 			newConnection.id,
 			newConnection.browser,
@@ -135,5 +135,22 @@ export class FlyweightController extends BaseController {
 			'.' +
 			Math.floor(Math.random() * 255)
 		);
+	}
+
+	private async initDevices(): Promise<DeviceStorage> {
+		const connections = await this.userConnectionRepository.getAll();
+		const deviceStorage = new DeviceStorage();
+		connections?.forEach(function (connection: UserConnections) {
+			deviceStorage.addDevice(
+				connection.id,
+				connection.browser,
+				connection.os,
+				connection.device,
+				connection.country,
+				connection.ip,
+			);
+		});
+
+		return deviceStorage;
 	}
 }

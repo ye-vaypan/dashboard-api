@@ -2,7 +2,6 @@ import { MiddlewareInterface } from './middleware.interface';
 import { NextFunction, Response, Request } from 'express';
 
 export class AuthMiddleware implements MiddlewareInterface {
-
 	private nextMiddleware: MiddlewareInterface;
 
 	setNext(nextMiddleware: MiddlewareInterface): MiddlewareInterface {

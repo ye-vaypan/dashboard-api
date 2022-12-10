@@ -13,7 +13,7 @@ import { ValidateMiddleware } from '../common/validate.middleware';
 import { sign } from 'jsonwebtoken';
 import { ConfigServiceInterface } from '../config/config.service.interface';
 import { AuthGuard } from '../common/auth.guard';
-import {UserUpdateDto} from "./dto/user.update.dto";
+import { UserUpdateDto } from './dto/user.update.dto';
 
 @injectable()
 export class UsersController extends BaseController implements UsersControllerInterface {
@@ -156,5 +156,4 @@ export class UsersController extends BaseController implements UsersControllerIn
 			});
 		}
 	}
-
 }

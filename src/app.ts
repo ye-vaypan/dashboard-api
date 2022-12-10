@@ -24,7 +24,7 @@ import { DecoratorController } from './structural/decorator/decorator.controller
 import { StrategyController } from './behavioral/strategy/strategy.controller';
 import { FlyweightController } from './structural/flyweight/flyweight.controller';
 import { ProxyController } from './structural/proxy/proxy.controller';
-import {CorController} from "./behavioral/chain-of-responsibility=users/cor.controller";
+import { CorController } from './behavioral/chain-of-responsibility=users/cor.controller';
 
 @injectable()
 export class App {
